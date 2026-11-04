@@ -14,9 +14,16 @@ Công cụ có sẵn, dùng thay vì tự viết script: <KIT> (đọc docstring
 - specrender.py: render_only, fit_two_points, overlay_small.
 Chạy Python bằng `python3 -I` với `sys.path.insert(0, "<KIT>")`.
 
+Báo tiến độ lên trang giám sát (theo <KIT>/progress_reporting.md, mốc 2 đến 5; chỉ ghi tài liệu của mình):
+- Công cụ ArtifactData, url <URL_TRANG>. Agent của bạn: agents/<ĐƠN>_S<n> (version <V_AGENT>). Mã của bạn: parts/<ĐƠN>_<mã> (version <V_MÃ>).
+- Bắt đầu mỗi mã: parts {status: "running", startedAt}; agent {current: "<mã>", heartbeatAt}.
+- Xong mỗi mã (sau khi ghi spec và note): parts {status: "built", blank: "W x H", flags (đúng các dòng Flag trong spec, không có thì []), finishedAt}; agent {done, current: null, heartbeatAt}.
+- Một mã quá 5 phút: cập nhật heartbeatAt giữa các bước. Xong nhóm: agent {state: "done", finishedAt}; dừng giữa chừng: {state: "failed", note}.
+- Luôn truyền if_version = version của lần ghi trước; giờ lấy bằng `date -u +%Y-%m-%dT%H:%M:%SZ`. Ghi thất bại 2 lần thì bỏ qua và nêu trong báo cáo cuối.
+
 Đầu ra mỗi chi tiết:
 1. spec_<mã>.json bằng save_spec (đúng hướng cuối cùng, gốc 0,0; trường flags theo định dạng mục 11.4; đường uốn chỉ để trong entities, không lặp ở trường khác).
 2. note_<mã>.md ngắn: thời gian (date +%s đầu/cuối), bảng mục 12 dạng gọn, Flag, điểm không chắc (đã thử gì).
 3. Chỉ chi tiết ghi "overlay có": overlay_<mã>.png bằng overlay_small (căn bằng 2 điểm của kích thước tổng; tấm uốn thì chồng từng mặt phẳng lên hình chiếu tương ứng). Mở ảnh một lần để tự soát hình dạng, lỗ, hướng; lệch thì sửa spec rồi vẽ lại. Chi tiết "overlay không" thì chỉ render_only để tự xem nhanh nếu cần.
-Báo cáo cuối ≤ 150 từ: kích thước phôi từng mã, Flag, điểm không chắc, thời gian. Không gửi tin cho người dùng.
+Báo cáo cuối ≤ 150 từ: kích thước phôi từng mã, Flag, điểm không chắc, thời gian, lần báo tiến độ nào thất bại. Không gửi tin cho người dùng.
 ---
