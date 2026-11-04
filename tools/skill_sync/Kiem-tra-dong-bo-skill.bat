@@ -1,0 +1,6 @@
+@echo off
+chcp 65001 >nul
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0skill-import.ps1" -SelfTest > "%~dp0selftest_result.txt" 2>&1
+type "%~dp0selftest_result.txt"
+echo.
+pause
