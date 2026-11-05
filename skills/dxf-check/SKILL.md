@@ -2,7 +2,7 @@
 name: "dxf-check"
 description: "Kiểm DXF đầu ra (26-xxxxxx.dxf, file ALL) sau dxf-sheetmetal: chỉ kiểm hình dạng, không kiểm Template; báo cáo chỉ nêu lỗi sai."
 metadata:
-  version: "2026.11.04-1"
+  version: "2026.11.05-1"
 ---
 
 Dùng sau bước 6 của skill `dxf-sheetmetal` (trước khi commit file về máy người dùng), hoặc khi người dùng yêu cầu kiểm một file DXF đã có. Tiêu chí lấy từ `dxf-sheetmetal` (mục 2–12), `Quy_Tac_Laser.md`, `Ghi_Chu_Loi_Tao_DXF.md` (`knowledge/Context_Laser/`). **Chỉ kiểm hình dạng, không kiểm cấu trúc Template** (file lưu từ CAD có header/owner khác Template là bình thường, không báo); muốn so Template thì thêm `--template`.
@@ -66,6 +66,7 @@ Dùng sau bước 6 của skill `dxf-sheetmetal` (trước khi commit file về 
 
 ## 4. Danh mục so với kỳ vọng từ nguồn (script chỉ đối chiếu chữ in; kích thước, ghi chú tay, hình: so với `blind_table.md` và ảnh PDF)
 - Mặt vẽ: loại hình chiếu (hình dưới không mặc định là hình bằng), mặt nhìn thấy, mép trước, ưu tiên kegaki > 表 > mặt ngoài uốn > hình chiếu chính (uốn ngược chiều) > hình chiếu đứng; tấm tách từ bản vẽ lắp đã lật ra mặt ngoài.
+- Tấm uốn: file vẽ mặt ngoài, hình chiếu trên bản vẽ có thể nhìn từ phía đối diện. Xác định mặt vẽ trước, rồi mới báo LỖI vị trí theo hướng trên/dưới (Y). Hướng chỉ suy từ việc hai hình thẳng hàng thì ghi CẢNH BÁO, không ghi LỖI.
 - Cặp gương: lỗ, kegaki, cánh ngắn của bản 対称 đúng là ảnh gương (script chỉ báo phép biến hình, không biết bên nào đúng).
 - Biên: mỗi đoạn biên ứng với một số/nét trên bản vẽ hoặc DXF khách; không tự thêm đoạn; tấm đặt trong hộp phải dò từng đoạn mép ở hình bằng (064175 có lưỡi 84 x 1.5); số nhỏ trong chuỗi (5, 9, 10) đều đã gán.
 - Kích thước: tính theo chuỗi kích thước, không giả định số tròn/giữa/đối xứng (064040, 064045); dung sai vẽ giá trị giữa (55 +0.2/0 → 55.1); số trong ngoặc chỉ tham khảo; DXF khách theo đúng tỉ lệ khung tên.
@@ -104,6 +105,7 @@ Sau khi so sánh bản vẽ cần check với bản vẽ kỳ vọng thì các t
 1. Kích thước, hình dạng trong PDF của khách khác với DXF của khách.
 2. Độ giãn dài viết tay khác với độ giãn dài trong bảng quy định.
 3. Ghi chú viết bằng tay không chắc chắn về nghĩa.
+   (Ngoại lệ: chữ "J" viết tay cạnh mã vạch nghĩa là gia công nội bộ, không cảnh báo, không yêu cầu J/LJ.)
 4. Chuỗi kích thước không cộng đủ tổng, hoặc điểm đầu/cuối của số kích thước không phân biệt được sau khi đã đo pixel.
 5. Góc bo cong nhìn thấy trên bản vẽ nhưng không ghi số R.
  

@@ -42,3 +42,7 @@ sync.json.bak
 last_import.txt
 selftest_result.txt
 imported/
+
+# Chặn DXF (dữ liệu khách/thành phẩm); chỉ cho phép Template mẫu
+*.dxf
+!templates/Template.dxf
